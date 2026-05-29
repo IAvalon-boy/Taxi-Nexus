@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0f0a1c; /* Un violeta/negro aún más profundo y cyberpunk */
+  --foreground: #e0e7ff; /* Índigo brillante para las letras */
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
