@@ -1,14 +1,99 @@
+"use client";
+
+import { useState } from "react";
+
 export default function Conductores() {
-  const drivers = [
-    { id: "DRV-091", name: "Carlos Mendoza", car: "Kia Rio (A-5281)", status: "En Viaje", color: "text-cyan-400 border-cyan-500/30 bg-cyan-950/20" },
-    { id: "DRV-104", name: "Elena Ramos", car: "Toyota Corolla (M-9012)", status: "Disponible", color: "text-fuchsia-400 border-fuchsia-500/30 bg-fuchsia-950/20" },
-  ];
+  const [drivers, setDrivers] = useState([
+    {
+      id: "DRV-091",
+      name: "Carlos Mendoza",
+      car: "Kia Rio (A-5281)",
+      status: "En Viaje",
+      color: "text-cyan-400 border-cyan-500/30 bg-cyan-950/20",
+    },
+    {
+      id: "DRV-104",
+      name: "Elena Ramos",
+      car: "Toyota Corolla (M-9012)",
+      status: "Disponible",
+      color: "text-fuchsia-400 border-fuchsia-500/30 bg-fuchsia-950/20",
+    },
+  ]);
+
+  const [name, setName] = useState("");
+  const [car, setCar] = useState("");
+  const [status, setStatus] = useState("Disponible");
+
+  const agregarConductor = () => {
+    if (!name || !car) return;
+
+    const nuevoConductor = {
+      id: `DRV-${Math.floor(Math.random() * 1000)}`,
+      name,
+      car,
+      status,
+      color:
+        status === "Disponible"
+          ? "text-fuchsia-400 border-fuchsia-500/30 bg-fuchsia-950/20"
+          : "text-cyan-400 border-cyan-500/30 bg-cyan-950/20",
+    };
+
+    setDrivers([...drivers, nuevoConductor]);
+
+    setName("");
+    setCar("");
+    setStatus("Disponible");
+  };
 
   return (
     <main className="p-8 space-y-8 font-mono">
       <div>
-        <h1 className="text-3xl font-black text-white tracking-wider">// CONTROL_CONDUCTORES</h1>
-        <p className="text-indigo-400/80 text-xs mt-1">Registro y estado actual de la fuerza operativa.</p>
+        <h1 className="text-3xl font-black text-white tracking-wider">
+          // CONTROL_CONDUCTORES
+        </h1>
+        <p className="text-indigo-400/80 text-xs mt-1">
+          Registro y estado actual de la fuerza operativa.
+        </p>
+      </div>
+
+      <div className="border border-indigo-950 rounded-lg p-6 bg-violet-950/10">
+        <h2 className="text-indigo-300 mb-4">
+          Registrar Nuevo Conductor
+        </h2>
+
+        <div className="grid gap-3">
+          <input
+            type="text"
+            placeholder="Nombre del conductor"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="bg-black/30 border border-indigo-900 p-2 rounded text-white"
+          />
+
+          <input
+            type="text"
+            placeholder="Vehículo asignado"
+            value={car}
+            onChange={(e) => setCar(e.target.value)}
+            className="bg-black/30 border border-indigo-900 p-2 rounded text-white"
+          />
+
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className="bg-black/30 border border-indigo-900 p-2 rounded text-white"
+          >
+            <option>Disponible</option>
+            <option>En Viaje</option>
+          </select>
+
+          <button
+            onClick={agregarConductor}
+            className="bg-indigo-700 hover:bg-indigo-600 text-white p-2 rounded"
+          >
+            Agregar Conductor
+          </button>
+        </div>
       </div>
 
       <div className="border border-indigo-950 rounded-lg overflow-hidden bg-violet-950/10">
@@ -21,14 +106,17 @@ export default function Conductores() {
               <th className="p-4 text-right">ESTADO</th>
             </tr>
           </thead>
+
           <tbody className="divide-y divide-indigo-950/50 text-indigo-200">
             {drivers.map((d, i) => (
-              <tr key={i} className="hover:bg-indigo-950/20 transition-colors">
+              <tr key={i}>
                 <td className="p-4 text-indigo-500">{d.id}</td>
                 <td className="p-4 font-bold text-white">{d.name}</td>
                 <td className="p-4 text-indigo-300">{d.car}</td>
                 <td className="p-4 text-right">
-                  <span className={`px-2 py-1 rounded border text-[10px] uppercase font-bold ${d.color}`}>
+                  <span
+                    className={`px-2 py-1 rounded border text-[10px] uppercase font-bold ${d.color}`}
+                  >
                     {d.status}
                   </span>
                 </td>
